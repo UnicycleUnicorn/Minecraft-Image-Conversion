@@ -4,12 +4,7 @@ from Algorithms import *
 import numpy as np
 import Pickler
 import os
-
-def totuple(a):
-    try:
-        return tuple(totuple(i) for i in a)
-    except TypeError:
-        return a
+import Util
 
 class Test():
     def __init__(self, name: str, image: str):
@@ -22,7 +17,7 @@ class Test():
             self.image = Pickler.LoadInput(self.name)
         except:
             print(f"Creating new test input: ", end = "")
-            self.image = totuple(np.array(img))
+            self.image = Util.totuple(np.array(img))
             print(self.name)
             Pickler.SaveInput(self.name, self.image)
 

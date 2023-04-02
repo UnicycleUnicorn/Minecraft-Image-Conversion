@@ -3,6 +3,7 @@ from PIL import Image, ImageStat
 import Pickler
 from Pickler import Pickles as PS
 import numpy as np
+import Util
 
 # directory path containing the images
 directory_path = "Textures"
@@ -28,3 +29,20 @@ for filename in os.listdir(directory_path):
 
 Pickler.Save(PS.ImageList, files)
 Pickler.Save(PS.AverageList, averages)
+
+preComputedCache = np.zeros(shape = (256, 256, 256), dtype = np.int16)
+for r in range(256):
+    print(f"R: {r}")
+    for g in range(256):
+        for b in range(256):
+            pixel = (r, g, b)
+            closestIndex = 0
+            closestDistance = Util.distance(pixel, averages[0])
+            for i in range(1, len(averages)):
+                distance = Util.distance(pixel, averages[i])
+                if (distance < closestDistance):
+                    closestDistance = distance
+                    closestIndex = i
+            preComputedCache[r, g, b] = closestIndex
+
+Pickler.Save(PS.AverageTuple, Util.totuple(preComputedCache))

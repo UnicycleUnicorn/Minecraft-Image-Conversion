@@ -6,6 +6,7 @@ import numpy as np
 class Pickles(Enum):
     ImageList = "ImageList"
     AverageList = "AverageList"
+    AverageTuple = "AverageTuple"
 
 PickleDump = "PickleDump"
 
