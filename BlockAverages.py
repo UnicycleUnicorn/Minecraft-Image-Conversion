@@ -21,7 +21,7 @@ for filename in os.listdir(directory_path):
             # get the average color of the image
             average_color = ImageStat.Stat(image).mean[0:3]
             # convert the color to an integer
-            int_color = np.array(int(x) for x in average_color)
+            int_color = tuple([int(x) for x in average_color])
             # store the average color
             averages.append(int_color)
             files.append(file_path)

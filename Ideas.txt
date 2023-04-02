@@ -1,3 +1,0 @@
-- Color comparison using bin search or similar algorithm (3D graph closeness) (3D nearest neighbor)
-- Parallel on GPU or multithread
-- Pre-compute and memoization

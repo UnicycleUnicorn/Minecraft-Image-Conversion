@@ -5,18 +5,32 @@ import numpy as np
 import Pickler
 import os
 
+def totuple(a):
+    try:
+        return tuple(totuple(i) for i in a)
+    except TypeError:
+        return a
+
 class Test():
     def __init__(self, name: str, image: str):
         self.name = name
         with Image.open(image).convert('RGB') as img:
             width, height = img.size
             self.n = width * height
-            self.image = np.array(img)
+
+        try:
+            self.image = Pickler.LoadInput(self.name)
+        except:
+            print(f"Creating new test input: ", end = "")
+            self.image = totuple(np.array(img))
+            print(self.name)
+            Pickler.SaveInput(self.name, self.image)
+
         try:
             self.correct = Pickler.LoadOutput(self.name)
         except:
             print(f"Creating new test output: ", end = "")
-            self.correct = BruteForceAlgorithm.run(self.image, BruteForceAlgorithm.getAverageFormat())
+            self.correct = SNB.run(self.image, SNB.getAverageFormat())
             print(self.name)
             Pickler.SaveOutput(self.name, self.correct)
 
@@ -76,7 +90,7 @@ class TestSuite():
 
 # Create a new test suite that averages on 10 runs
 testSuite = TestSuite(4)
-
+'''
 # Add all images as tests to the test suite
 for file in os.listdir("InputImages/"):
     if (file.endswith(".png")):
@@ -84,12 +98,19 @@ for file in os.listdir("InputImages/"):
         path = "InputImages/" + file
         test = Test(name, path)
         testSuite.addTest(test)
-
+'''
 # Add algorithms to the test suite
-testSuite.addAlgorithm(BruteForceAlgorithm)
+testSuite.addAlgorithm(SDB)
+#testSuite.addAlgorithm(SNB)
+
 
 # Save output images
 #testSuite.saveOutputImages()
 
 # Run test suite
-#testSuite.run()
+# testSuite.run()
+
+#TODO Force run a test
+image = "Space"
+testSuite.addTest(Test(image, f"InputImages/{image}.png"))
+testSuite.run()
