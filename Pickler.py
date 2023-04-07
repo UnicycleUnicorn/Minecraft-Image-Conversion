@@ -7,6 +7,7 @@ class Pickles(Enum):
     ImageList = "ImageList"
     AverageList = "AverageList"
     AverageTuple = "AverageTuple"
+    AverageTree = "AverageTree"
 
 PickleDump = "PickleDump"
 

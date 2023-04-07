@@ -4,6 +4,7 @@ import Pickler
 from Pickler import Pickles as PS
 import numpy as np
 import Util
+from scipy.spatial import KDTree
 
 # directory path containing the images
 directory_path = "Textures"
@@ -30,6 +31,7 @@ for filename in os.listdir(directory_path):
 Pickler.Save(PS.ImageList, files)
 Pickler.Save(PS.AverageList, averages)
 
+
 preComputedCache = np.zeros(shape = (256, 256, 256), dtype = np.int16)
 for r in range(256):
     print(f"R: {r}")
@@ -46,3 +48,7 @@ for r in range(256):
             preComputedCache[r, g, b] = closestIndex
 
 Pickler.Save(PS.AverageTuple, Util.totuple(preComputedCache))
+
+
+kdTree = KDTree(averages, copy_data = True)
+Pickler.Save(PS.AverageTree, kdTree)
